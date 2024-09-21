@@ -6,12 +6,13 @@ import "./index.css";
 import ScrollToTop from "./components/Other/ScrollToTop.js";
 import { FilterProvider } from "./context/FilterContext.jsx";
 
+//1
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Router>
       <FilterProvider>
         <ScrollToTop></ScrollToTop>
-        <App />
+        <App /> 
       </FilterProvider>
     </Router>
   </StrictMode>
