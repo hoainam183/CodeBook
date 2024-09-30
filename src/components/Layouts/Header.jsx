@@ -4,12 +4,17 @@ import { Link } from "react-router-dom";
 import Search from "../Sections/Search";
 import DropdownLoggedIn from "../Elements/DropdownLoggedIn";
 import { DropdownLoggedOut } from "../Elements/DropdownLoggedOut";
+import { useCart } from "../../context/CartContext";
 const Header = () => {
   const [show, setShow] = useState(false);
   const [darkMode, setDarkMode] = useState(
     JSON.parse(localStorage.getItem("darkMode")) || false
   );
   const [dropDown, setDropDown] = useState(false);
+  const token = sessionStorage.getItem("token");
+  // console.log(token);
+
+  const { cartList } = useCart();
 
   useEffect(() => {
     localStorage.setItem("darkMode", JSON.stringify(darkMode));
@@ -42,12 +47,20 @@ const Header = () => {
             <Link to="/cart" className="text-gray-700 dark:text-white mr-5">
               <span className="text-2xl bi bi-cart-fill relative">
                 <span className="text-white text-sm absolute -top-1 left-2.5 bg-rose-500 px-1 rounded-full ">
-                  0
+                  {cartList.length}
                 </span>
               </span>
             </Link>
-            <span onClick={() => setDropDown(!dropDown)} className="bi bi-person-circle cursor-pointer text-2xl text-gray-700 dark:text-white"></span>
-            {dropDown && <DropdownLoggedOut></DropdownLoggedOut>}
+            <span
+              onClick={() => setDropDown(!dropDown)}
+              className="bi bi-person-circle cursor-pointer text-2xl text-gray-700 dark:text-white"
+            ></span>
+            {dropDown &&
+              (token ? (
+                <DropdownLoggedIn setDropDown={setDropDown} />
+              ) : (
+                <DropdownLoggedOut setDropDown={setDropDown} />
+              ))}
           </div>
         </div>
       </nav>
