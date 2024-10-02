@@ -7,8 +7,6 @@ import { useCart } from "../context/CartContext";
 import { getProduct } from "../services/productService";
 
 export const ProductDetail = () => {
-  // const location = useLocation();
-  // console.log(location.pathname);
   const { addCart, removeCart, cartList } = useCart();
   
   const [product, setProduct] = useState({});

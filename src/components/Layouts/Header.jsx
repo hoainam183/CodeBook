@@ -12,8 +12,6 @@ const Header = () => {
   );
   const [dropDown, setDropDown] = useState(false);
   const token = sessionStorage.getItem("token");
-  // console.log(token);
-
   const { cartList } = useCart();
 
   useEffect(() => {

@@ -24,13 +24,10 @@ const Checkout = ({ setCheckout }) => {
     e.preventDefault();
     try {
       const data = await createOrder(cartList,total,user);
-      console.log(data);
       
       clearCart();
       navigate("/order-summary", { state: { data: data, status: true } });
-    } catch(e) {
-      console.log(e);
-      
+    } catch(e) {      
       navigate("/order-summary", { state: {status: false } });
     }
   }

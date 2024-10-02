@@ -5,7 +5,6 @@ const Search = ({setShow}) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const query = e.target.elements.search.value;
-    // console.log(query);
     navigate(`products?q=${query}`)
     e.target.reset();
     setShow(false)

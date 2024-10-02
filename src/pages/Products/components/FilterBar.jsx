@@ -2,9 +2,7 @@ import { useFilter } from "../../../context/FilterContext";
 
 export const FilterBar = ({ setShow }) => {
   
-  const { state, dispatch } = useFilter();
-  console.log(state.rating);
-  
+  const { state, dispatch } = useFilter();  
   return (
     <section className="filter">
       <div

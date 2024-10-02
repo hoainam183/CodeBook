@@ -9,10 +9,6 @@ import { getProductList } from "../../services/productService";
 import { toast } from "react-toastify";
 export const ProductList = () => {
   const { products, initialProductList } = useFilter();
-  // console.log(products);
-
-  // console.log(productList);
-
   useTilte("ProductList");
   const [show, setShow] = useState(false);
   const path = useLocation().search;
