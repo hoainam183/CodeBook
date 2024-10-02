@@ -5,6 +5,8 @@ import useTilte from "../../hooks/useTilte";
 import { useFilter } from "../../context/FilterContext";
 import { ProductCard } from "./components/ProductCard";
 import { useCart } from "../../context/CartContext";
+import { getProductList } from "../../services/productService";
+import { toast } from "react-toastify";
 export const ProductList = () => {
   const { products, initialProductList } = useFilter();
   // console.log(products);
@@ -18,18 +20,22 @@ export const ProductList = () => {
 
   useEffect(() => {
     async function fetchProducts() {
-      const response = await fetch(
-        `http://localhost:8000/products?name_like=${
-          searchTerm ? searchTerm : ""
-        }`
-      );
-      const data = await response.json();
-      initialProductList(data);
+      try {       
+        const data = await getProductList(searchTerm);
+        initialProductList(data);
+      } catch (e) {
+        toast.error(e.message, {
+          closeButton: true,
+          position: "bottom-center",
+          autoClose: 5000,
+          closeOnClick: true,
+        });
+      }
     }
     fetchProducts();
   }, [searchTerm]);
 
-  const {cartList} = useCart();
+  const { cartList } = useCart();
 
   return (
     <main>
@@ -63,7 +69,13 @@ export const ProductList = () => {
           {products.map((product) => {
             const temp = cartList.filter((x) => x.id == product.id);
             const checked = temp.length === 1 ? true : false;
-            return <ProductCard key={product.id} product={product} checked={checked} />;
+            return (
+              <ProductCard
+                key={product.id}
+                product={product}
+                checked={checked}
+              />
+            );
           })}
         </div>
         {show && <FilterBar setShow={setShow} />}

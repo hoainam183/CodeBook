@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useCart } from "../../../context/CartContext";
 import { Navigate, useNavigate } from "react-router-dom";
+import { createOrder, getUser, getUserOrders } from "../../../services/dataService";
 
 const Checkout = ({ setCheckout }) => {
   const { total, cartList, clearCart } = useCart();
@@ -11,49 +12,25 @@ const Checkout = ({ setCheckout }) => {
   const cbid = JSON.parse(sessionStorage.getItem("cbid"));
 
   useEffect(() => {
-    async function getUser() {
-      const response = await fetch(`http://localhost:8000/600/users/${cbid}`, {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          authorization: `Bearer ${token}`,
-        },
-      });
-      const data = await response.json();
+    async function fetchData() {
+      const data = await getUser();
       setUser(data);
     }
 
-    getUser();
+    fetchData();
   }, []);
 
   async function handleOrderSubmit(e) {
     e.preventDefault();
     try {
-      const order = {
-        cartList: cartList,
-        amount_paid: total,
-        quantity: cartList.length,
-        user: {
-          name: user.name,
-          email: user.email,
-          id: user.id,
-        },
-      };
-      const response = await fetch("http://localhost:8000/660/orders", {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-          authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(order),
-      });
-
-      const data = await response.json();
+      const data = await createOrder(cartList,total,user);
       console.log(data);
-
+      
       clearCart();
       navigate("/order-summary", { state: { data: data, status: true } });
     } catch(e) {
+      console.log(e);
+      
       navigate("/order-summary", { state: {status: false } });
     }
   }

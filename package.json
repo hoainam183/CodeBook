@@ -11,6 +11,7 @@
     "server": "json-server data/db.json -m ./node_modules/json-server-auth -r data/routes.json --port 8000"
   },
   "dependencies": {
+    "dotenv": "^16.4.5",
     "express": "^4.21.0",
     "json-server": "^0.17.4",
     "react": "^18.3.1",

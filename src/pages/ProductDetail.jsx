@@ -4,25 +4,26 @@ import Rating from "../components/Elements/Rating";
 import { useParams } from "react-router-dom";
 import useTilte from "../hooks/useTilte";
 import { useCart } from "../context/CartContext";
+import { getProduct } from "../services/productService";
 
 export const ProductDetail = () => {
   // const location = useLocation();
   // console.log(location.pathname);
   const { addCart, removeCart, cartList } = useCart();
-
+  
   const [product, setProduct] = useState({});
   const { id } = useParams();
   let checked = false;
-  cartList.filter((product) => product.id === id).length === 1
-    ? (checked = false)
-    : (checked = true);
+  cartList.filter((product) => +product.id == +id).length === 1
+    ? (checked = true)
+    : (checked = false);
+  
   const [add, setAdd] = useState(checked);
   useTilte(`${product.name}`);
 
   useEffect(() => {
     async function fetchProducts() {
-      const response = await fetch(`http://localhost:8000/products/${id}`);
-      const data = await response.json();
+      const data = await getProduct(id);
       setProduct(data);
     }
     fetchProducts();
@@ -76,16 +77,16 @@ export const ProductDetail = () => {
               </span>
             </p>
             <p className="my-3">
-              {add ? (
+              {(!add) ? (
                 <button
-                onClick={() => {addCart(product), setAdd(false)}}
+                onClick={() => {addCart(product), setAdd(true)}}
                   className={`inline-flex items-center py-2 px-5 text-lg font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800`}
                 >
                   Add To Cart <i className="ml-1 bi bi-plus-lg"></i>
                 </button>
               ) : (
                 <button
-                onClick={() => {removeCart(product), setAdd(true)}}
+                onClick={() => {removeCart(product), setAdd(false)}}
                   className={`inline-flex items-center py-2 px-5 text-lg font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-800`}
                   disabled={product.in_stock ? "" : "disabled"}
                 >

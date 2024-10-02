@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
 import { ProductCard } from "../../Products/components/ProductCard";
 import { useCart } from "../../../context/CartContext";
+import { getFeatureList } from "../../../services/productService";
 
 export const FeaturedProducts = () => {
   const [products, setProducts] = useState([]);
+  const {cartList} = useCart();
+
   useEffect(() => {
     async function fetchProducts() {
-      const response = await fetch("http://localhost:8000/featured_products");
-      const data = await response.json();
+      const data =await getFeatureList();
       setProducts(data);
     }
     fetchProducts();
   }, []);
-
-  const {cartList} = useCart();
   return (
     <section className="my-20">
       <h1 className="text-2xl text-center font-semibold dark:text-slate-100 mb-5 underline underline-offset-8">

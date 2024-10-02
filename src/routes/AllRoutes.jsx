@@ -7,6 +7,8 @@ import Register from "../pages/Register";
 import CartPage from "../pages/Cart/CartPage";
 import ProtectedRoute from "./ProtectedRoute";
 import OrderPage from "../pages/Order/OrderPage";
+import DashboardPage from "../pages/Dashboard/DashboardPage";
+import PageNotFound from "../pages/PageNotFound";
 export default function AllRoutes() {
   return (
     <>
@@ -21,6 +23,9 @@ export default function AllRoutes() {
         {/* <Route path="/cart" element={<ProtectedRoute><ProtectedRoute/>}></Route> */}
         <Route path="/cart" element={<ProtectedRoute><CartPage/></ProtectedRoute>}></Route>
         <Route path="/order-summary" element={<ProtectedRoute><OrderPage/></ProtectedRoute>}></Route>
+        <Route path="/dashboard" element={<ProtectedRoute><DashboardPage/></ProtectedRoute>}></Route>
+
+        <Route path="*" element={<PageNotFound/>}/>
       </Routes>
     </>
   );
